@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 //http://mongoosejs.com/docs/promises.html
 mongoose.Promise = global.Promise
 
+//https://www.npmjs.com/package/slugs
 const slug = require('slugs')
 
 const storeSchema = new mongoose.Schema({
@@ -20,7 +21,7 @@ const storeSchema = new mongoose.Schema({
 })
 
 //http://mongoosejs.com/docs/api.html#schema_Schema-pre
-// 不懂 
+// before save , do some function 
 storeSchema.pre('save', function(next){
   if (!this.isModified('name')){
     next(); //skip it
