@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
 //http://mongoosejs.com/docs/promises.html
+// Tell Mongoose to use ES6 promises
 mongoose.Promise = global.Promise
 
 //https://www.npmjs.com/package/slugs
@@ -31,3 +32,5 @@ storeSchema.pre('save', function(next){
   next()
   // to make more resilient so slugs are unique
 })
+
+module.exports = mongoose.model('Store', storeSchema) 
