@@ -4,14 +4,14 @@ mixin storeForm(store = {})
     input(type='text' name='name' value=store.name)
     label(for='description') Description
     textarea(name='description')= store.description
-    //- address, leg, lat
+    //- address, lng, lat
     label(for='address') Address
     input(type='text' id='address' name='location[address]' 
           value=(store.location && store.location.address))
-    label(for='leg') Address Lng
-    input(type='text' id='leg' name='location[coordinates][0]' 
+    label(for='lng') Address Lng
+    input(type='text' id='lng' name='location[coordinates][0]' 
           value=(store.location && store.location.coordinates[0]) required)
-    label(for='leg') Address Lat
+    label(for='lng') Address Lat
     input(type='text' id='lat' name='location[coordinates][1]' 
           value=(store.location && store.location.coordinates[1]) required)
 
