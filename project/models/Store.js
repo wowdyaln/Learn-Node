@@ -36,7 +36,8 @@ const storeSchema = new mongoose.Schema({
       type: String,
       required: 'you must supply an address!'
     }
-  }
+  },
+  photo: String
 })
 
 //http://mongoosejs.com/docs/api.html#schema_Schema-pre

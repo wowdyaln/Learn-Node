@@ -5,7 +5,6 @@ block content
   .inner
     h3 today pass away #{h.moment().endOf('day').fromNow()}
     h2 #{title}
-    h2= title
     .stores
       each store in stores
         +storeCard(store)
