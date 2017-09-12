@@ -42,12 +42,19 @@ const storeSchema = new mongoose.Schema({
 
 //http://mongoosejs.com/docs/api.html#schema_Schema-pre
 // before save , do some function 
-storeSchema.pre('save', function(next){
+storeSchema.pre('save', async function(next){
   if (!this.isModified('name')){
     next(); //skip it
     return; // stop this function from running
   }
   this.slug = slug(this.name)
+  // find other stores that have the same slug; if do, rename their slug
+  const slugRegex = new RegExp(`^(${this.slug})((-[0-9]*$)?)$`, 'i') //ignore case
+  const storeWithSlug = await this.constructor.find({ slug: slugRegex})
+
+  if(storeWithSlug.length > 0) {
+    this.slug = `${this.slug}-${storeWithSlug.length + 1}`
+  }
   next()
   // to make more resilient so slugs are unique
 })
