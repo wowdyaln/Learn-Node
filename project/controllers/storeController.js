@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+
+//http://mongoosejs.com/docs/api.html#index_Mongoose-model
 const Store = mongoose.model('Store')
 const multer = require('multer')
 const jimp = require('jimp')
@@ -58,6 +60,7 @@ exports.getStores = async (req, res) => {
 
 exports.editStore = async (req, res) => {
   //1. find the store and given the ID
+//http://mongoosejs.com/docs/api.html#model_Model.findOne
   const store = await Store.findOne({ _id: req.params.id})
   //2. confirm they are the owner of the store
   //3. render out the edit form so the user can update their store
@@ -68,6 +71,7 @@ exports.updateStore = async (req, res) => {
   // set the location data to be a point
   req.body.location.type = 'Point'
   //1. find and update the store
+// http://mongoosejs.com/docs/api.html#model_Model.findOneAndUpdate
   const store = await Store.findOneAndUpdate({_id: req.params.id}, req.body, {
     new: true, // return the new store instead of the old one
     runValidators: true
@@ -81,13 +85,17 @@ exports.updateStore = async (req, res) => {
 }
 
 exports.getStoreBySlug = async (req, res, next) => {
+  //http://mongoosejs.com/docs/api.html#model_Model.findOne
   const store = await Store.findOne({ slug: req.params.slug })
   if (!store) return next()
   res.render('store', { store, title: store.name})
 }
 
-exports.getStoresBtTag = async (req, res) => {
-  const tags = await Store.getTagsList();
+exports.getStoresByTag = async (req, res) => {
   const tag = req.params.tag
-  res.render('tags', { tags, title: 'Tags', tag})
+  const tagQuery = tag || {$exists: true}
+  const tagsPromise = Store.getTagsList(); // static methods
+  const storesPromise = Store.find({ tags: tagQuery})
+  const [tags, stores] = await Promise.all([tagsPromise, storesPromise])
+  res.render('tags', { tags, title: 'Tags', tag, stores})
 }
