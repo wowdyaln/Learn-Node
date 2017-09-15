@@ -6,8 +6,9 @@ mongoose.Promise = global.Promise     //http://mongoosejs.com/docs/promises.html
 //https://www.npmjs.com/package/slugs
 const slug = require('slugs')
 
+const Schema = mongoose.Schema
 //http://mongoosejs.com/docs/guide.html
-const storeSchema = new mongoose.Schema({
+const storeSchema = new Schema({
   name: {
     type: String,
     trim: true,
